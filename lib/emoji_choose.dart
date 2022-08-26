@@ -65,6 +65,9 @@ class EmojiChoose extends StatefulWidget {
   /// The maximum number of emojis to be recommended
   int numRecommended;
 
+  /// The size of button emoji
+  double sizeOfEmoji;
+
   /// The string to be displayed if no recommendations found
   String noRecommendationsText;
 
@@ -87,6 +90,7 @@ class EmojiChoose extends StatefulWidget {
     required this.onEmojiSelected,
     this.columns = 7,
     this.rows = 3,
+    this.sizeOfEmoji = 24.0,
     this.selectedCategory = Category.RECOMMENDED,
     this.bgColor= const Color.fromRGBO(242, 242, 242, 1),
     this.indicatorColor = Colors.blue,
@@ -152,14 +156,14 @@ class _EmojiChooseState extends State<EmojiChoose> {
   List<String> allEmojis = List.empty(growable: true);
   List<String> recentEmojis = List.empty(growable: true);
 
-  Map<String, String> smileyMap = new Map();
-  Map<String, String> animalMap = new Map();
-  Map<String, String> foodMap = new Map();
-  Map<String, String> travelMap = new Map();
-  Map<String, String> activityMap = new Map();
-  Map<String, String> objectMap = new Map();
-  Map<String, String> symbolMap = new Map();
-  Map<String, String> flagMap = new Map();
+  Map<String, String> smileyMap = {};
+  Map<String, String> animalMap = {};
+  Map<String, String> foodMap = {};
+  Map<String, String> travelMap = {};
+  Map<String, String> activityMap = {};
+  Map<String, String> objectMap = {};
+  Map<String, String> symbolMap = {};
+  Map<String, String> flagMap = {};
 
   bool loaded = false;
 
@@ -172,7 +176,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
     });
   }
 
-  Future<bool> _isEmojiAvailable(String emoji) async {
+  /*Future<bool> _isEmojiAvailable(String emoji) async {
     if (Platform.isAndroid) {
       bool isAvailable;
       try {
@@ -185,7 +189,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
     } else {
       return true;
     }
-  }
+  }*/
 
   Future<Map<String, String>> _getFiltered(Map<String, String> emoji) async {
     if (kIsWeb) {
@@ -198,7 +202,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
         await platform.invokeMethod("checkAvailability", {'emoji': emoji});
         filtered = Map<String, String>.from(temp);
       } on PlatformException catch (_) {
-        filtered = Map<String, String>();
+        filtered = <String, String>{};
       }
       return filtered;
     } else {
@@ -217,7 +221,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
     final prefs = await SharedPreferences.getInstance();
     const key = "recents";
     getRecentEmojis().then((_) {
-      print("adding emoji");
+      //print("adding emoji");
       setState(() {
         recentEmojis.insert(0, emoji.name);
         prefs.setStringList(key, recentEmojis);
@@ -252,7 +256,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
     final prefs = await SharedPreferences.getInstance();
     String? emojiJson = prefs.getString(title);
     if (emojiJson == null) {
-      return Map<String, String>();
+      return <String, String>{};
     }
     Map<String, String> emojis =
     Map<String, String>.from(jsonDecode(emojiJson));
@@ -409,14 +413,13 @@ class _EmojiChooseState extends State<EmojiChoose> {
                 switch (widget.buttonMode) {
                   case ButtonMode.MATERIAL:
                     return Center(
-                        child: FlatButton(
-                          padding: const EdgeInsets.all(0),
+                        child: TextButton(
                           child: Center(
                             child: Text(
                               recommendedEmojis[
                               index + (widget.columns * widget.rows * i)]
                                   .emoji,
-                              style: const TextStyle(fontSize: 24),
+                              style: TextStyle(fontSize: widget.sizeOfEmoji),
                             ),
                           ),
                           onPressed: () {
@@ -432,7 +435,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                                 emoji: recommended.emoji));
                           },
                         ));
-                    break;
                   case ButtonMode.CUPERTINO:
                     return Center(
                         child: CupertinoButton(
@@ -443,7 +445,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               recommendedEmojis[
                               index + (widget.columns * widget.rows * i)]
                                   .emoji,
-                              style: const TextStyle(fontSize: 24),
+                              style: TextStyle(fontSize: widget.sizeOfEmoji),
                             ),
                           ),
                           onPressed: () {
@@ -460,10 +462,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           },
                         ));
 
-                    break;
                   default:
                     return Container();
-                    break;
                 }
               } else {
                 return Container();
@@ -510,12 +510,11 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             emojiTxt,
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -528,7 +527,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 case ButtonMode.CUPERTINO:
                   return Center(
                       child: CupertinoButton(
@@ -537,7 +535,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                         child: Center(
                           child: Text(
                             emojiTxt,
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -550,7 +548,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 default:
                   return Container();
               }
@@ -581,13 +578,12 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             animalMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -600,7 +596,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 case ButtonMode.CUPERTINO:
                   return Center(
                       child: CupertinoButton(
@@ -610,7 +605,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           child: Text(
                             animalMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -623,10 +618,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 default:
                   return Container();
-                  break;
               }
             } else {
               return Container();
@@ -655,13 +648,12 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             foodMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -674,7 +666,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 case ButtonMode.CUPERTINO:
                   return Center(
                       child: CupertinoButton(
@@ -684,7 +675,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           child: Text(
                             foodMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -697,10 +688,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 default:
                   return Container();
-                  break;
               }
             } else {
               return Container();
@@ -729,13 +718,12 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             travelMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -748,7 +736,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 case ButtonMode.CUPERTINO:
                   return Center(
                       child: CupertinoButton(
@@ -758,7 +745,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           child: Text(
                             travelMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -771,10 +758,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 default:
                   return Container();
-                  break;
               }
             } else {
               return Container();
@@ -806,13 +791,12 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             activityMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -825,7 +809,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 case ButtonMode.CUPERTINO:
                   return Center(
                       child: CupertinoButton(
@@ -834,7 +817,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                         child: Center(
                           child: Text(
                             emojiTxt,
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -847,10 +830,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 default:
                   return Container();
-                  break;
               }
             } else {
               return Container();
@@ -879,13 +860,12 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             objectMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -898,7 +878,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 case ButtonMode.CUPERTINO:
                   return Center(
                       child: CupertinoButton(
@@ -908,7 +887,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           child: Text(
                             objectMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -921,10 +900,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 default:
                   return Container();
-                  break;
               }
             } else {
               return Container();
@@ -953,13 +930,12 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             symbolMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -972,7 +948,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 case ButtonMode.CUPERTINO:
                   return Center(
                       child: CupertinoButton(
@@ -982,7 +957,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           child: Text(
                             symbolMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -995,10 +970,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               widget.selectedCategory);
                         },
                       ));
-                  break;
                 default:
                   return Container();
-                  break;
               }
             } else {
               return Container();
@@ -1027,13 +1000,12 @@ class _EmojiChooseState extends State<EmojiChoose> {
               switch (widget.buttonMode) {
                 case ButtonMode.MATERIAL:
                   return Center(
-                      child: FlatButton(
-                        padding: const EdgeInsets.all(0),
+                      child: TextButton(
                         child: Center(
                           child: Text(
                             flagMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -1055,7 +1027,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           child: Text(
                             flagMap.values.toList()[
                             index + (widget.columns * widget.rows * i)],
-                            style: const TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: widget.sizeOfEmoji),
                           ),
                         ),
                         onPressed: () {
@@ -1110,12 +1082,11 @@ class _EmojiChooseState extends State<EmojiChoose> {
                 switch (widget.buttonMode) {
                   case ButtonMode.MATERIAL:
                     return Center(
-                        child: FlatButton(
-                          padding: const EdgeInsets.all(0),
+                        child: TextButton(
                           child: Center(
                             child: Text(
                               allEmojis[allNames.indexOf(recentEmojis[index])],
-                              style: const TextStyle(fontSize: 24),
+                              style: TextStyle(fontSize: widget.sizeOfEmoji),
                             ),
                           ),
                           onPressed: () {
@@ -1135,7 +1106,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                           child: Center(
                             child: Text(
                               allEmojis[allNames.indexOf(recentEmojis[index])],
-                              style: const TextStyle(fontSize: 24),
+                              style: TextStyle(fontSize: widget.sizeOfEmoji),
                             ),
                           ),
                           onPressed: () {
@@ -1381,15 +1352,20 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     width: MediaQuery.of(context).size.width / 10,
                     height: MediaQuery.of(context).size.width / 10,
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: EdgeInsets.all(0),
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                        absorbing: true,
+                        child:
+                    Container(
+                      decoration: ShapeDecoration(
                       color: widget.selectedCategory ==
                           Category.RECOMMENDED
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.recommendationIcon
@@ -1402,8 +1378,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               : widget.categoryIcons
                               .recommendationIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory ==
                             Category.RECOMMENDED) {
                           return;
@@ -1451,14 +1427,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: EdgeInsets.all(0),
+                        ? GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                          child:
+                          Container(
+                          decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.RECENT
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.recentIcon.icon,
@@ -1469,8 +1450,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .selectedColor
                               : widget.categoryIcons.recentIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.RECENT) {
                           return;
                         }
@@ -1513,14 +1494,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ? GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        Container(
+                        decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.SMILEYS
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.smileyIcon.icon,
@@ -1531,8 +1517,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .selectedColor
                               : widget.categoryIcons.smileyIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.SMILEYS) {
                           return;
                         }
@@ -1575,14 +1561,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ? GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        Container(
+                        decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.ANIMALS
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.animalIcon.icon,
@@ -1593,8 +1584,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .selectedColor
                               : widget.categoryIcons.animalIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.ANIMALS) {
                           return;
                         }
@@ -1639,14 +1630,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ? GestureDetector(
+                          child:
+                          AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                          decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.FOODS
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.foodIcon.icon,
@@ -1656,8 +1652,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .categoryIcons.foodIcon.selectedColor
                               : widget.categoryIcons.foodIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.FOODS) {
                           return;
                         }
@@ -1670,7 +1666,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     )
                         : CupertinoButton(
                       pressedOpacity: 0.4,
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       color: widget.selectedCategory == Category.FOODS
                           ? Colors.black12
                           : Colors.transparent,
@@ -1703,14 +1699,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ? GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        Container(
+                        decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.TRAVEL
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.travelIcon.icon,
@@ -1721,8 +1722,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .selectedColor
                               : widget.categoryIcons.travelIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.TRAVEL) {
                           return;
                         }
@@ -1771,15 +1772,20 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ? GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        Container(
+                        decoration: ShapeDecoration(
                       color:
                       widget.selectedCategory == Category.ACTIVITIES
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.activityIcon.icon,
@@ -1790,8 +1796,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .selectedColor
                               : widget.categoryIcons.activityIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory ==
                             Category.ACTIVITIES) {
                           return;
@@ -1845,14 +1851,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ? GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        Container(
+                        decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.OBJECTS
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.objectIcon.icon,
@@ -1863,8 +1874,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .selectedColor
                               : widget.categoryIcons.objectIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.OBJECTS) {
                           return;
                         }
@@ -1917,14 +1928,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ? GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        Container(
+                        decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.SYMBOLS
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.symbolIcon.icon,
@@ -1935,8 +1951,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .selectedColor
                               : widget.categoryIcons.symbolIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.SYMBOLS) {
                           return;
                         }
@@ -1991,14 +2007,19 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     height: MediaQuery.of(context).size.width /
                         (widget.recommendKeywords.isEmpty ? 9 : 10),
                     child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                        ?GestureDetector(
+                        child:
+                        AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        Container(
+                        decoration: ShapeDecoration(
                       color: widget.selectedCategory == Category.FLAGS
                           ? Colors.black12
                           : Colors.transparent,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(0))),
+                          BorderRadius.all(Radius.circular(0)))),
                       child: Center(
                         child: Icon(
                           widget.categoryIcons.flagIcon.icon,
@@ -2008,8 +2029,8 @@ class _EmojiChooseState extends State<EmojiChoose> {
                               .categoryIcons.flagIcon.selectedColor
                               : widget.categoryIcons.flagIcon.color,
                         ),
-                      ),
-                      onPressed: () {
+                      ))),
+                      onTap: () {
                         if (widget.selectedCategory == Category.FLAGS) {
                           return;
                         }
@@ -2088,7 +2109,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
               color: widget.indicatorColor,
             ),
           ),
-          Container(
+          SizedBox(
             height: 50,
             child: Row(
               children: <Widget>[
@@ -2211,7 +2232,7 @@ class _ProgressPainter extends CustomPainter {
     }
     double indicatorPageWidth = size.width / pages[selectedCategory]!;
 
-    Rect bgRect = Offset(0, 0) & size;
+    Rect bgRect = const Offset(0, 0) & size;
 
     Rect indicator = Offset(max(0, offsetInPages * indicatorPageWidth), 0) &
     Size(

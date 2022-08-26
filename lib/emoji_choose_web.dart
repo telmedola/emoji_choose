@@ -30,7 +30,7 @@ class EmojiChooseWeb {
         return getPlatformVersion();
       case 'checkAvailability':
         Map<String, String> map = call.arguments("emoji");
-        Map<String, String> filtered = Map<String, String>();
+        Map<String, String> filtered = <String, String>{};
         for (MapEntry<String, String> entry in map.entries ) {
           //if(PaintCompat.hasGlyph(paint, entry.getValue().toString())){
           //  filtered.put(entry.getKey().toString(), entry.getValue().toString());

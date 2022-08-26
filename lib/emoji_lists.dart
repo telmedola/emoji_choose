@@ -1,5 +1,5 @@
 /// Map of all possible emojis along with their names in [Category.SMILEYS]
-final Map<String, String> smileys = new Map.fromIterables([
+final Map<String, String> smileys = Map.fromIterables([
   'Grinning Face',
   'Grinning Face With Big Eyes',
   'Grinning Face With Smiling Eyes',
@@ -724,7 +724,7 @@ final Map<String, String> smileys = new Map.fromIterables([
 ]);
 
 /// Map of all possible emojis along with their names in [Category.ANIMALS]
-final Map<String, String> animals = new Map.fromIterables([
+final Map<String, String> animals = Map.fromIterables([
   'See-No-Evil Monkey',
   'Hear-No-Evil Monkey',
   'Speak-No-Evil Monkey',
@@ -1091,7 +1091,7 @@ final Map<String, String> animals = new Map.fromIterables([
 ]);
 
 /// Map of all possible emojis along with their names in [Category.FOODS]
-final Map<String, String> foods = new Map.fromIterables([
+final Map<String, String> foods = Map.fromIterables([
   'Grapes',
   'Melon',
   'Watermelon',
@@ -1306,7 +1306,7 @@ final Map<String, String> foods = new Map.fromIterables([
 ]);
 
 /// Map of all possible emojis along with their names in [Category.TRAVEL]
-final Map<String, String> travel = new Map.fromIterables([
+final Map<String, String> travel = Map.fromIterables([
   'Person Rowing Boat',
   'Map of Japan',
   'Snow-Capped Mountain',
@@ -1561,7 +1561,7 @@ final Map<String, String> travel = new Map.fromIterables([
 ]);
 
 /// Map of all possible emojis along with their names in [Category.ACTIVITIES]
-final Map<String, String> activities = new Map.fromIterables([
+final Map<String, String> activities = Map.fromIterables([
   'Man in Suit Levitating',
   'Man Climbing',
   'Woman Climbing',
@@ -1750,7 +1750,7 @@ final Map<String, String> activities = new Map.fromIterables([
 ]);
 
 /// Map of all possible emojis along with their names in [Category.OBJECTS]
-final Map<String, String> objects = new Map.fromIterables([
+final Map<String, String> objects = Map.fromIterables([
   'Love Letter',
   'Hole',
   'Bomb',
@@ -2151,7 +2151,7 @@ final Map<String, String> objects = new Map.fromIterables([
 ]);
 
 /// Map of all possible emojis along with their names in [Category.SYMBOLS]
-final Map<String, String> symbols = new Map.fromIterables([
+final Map<String, String> symbols = Map.fromIterables([
   'Heart With Arrow',
   'Heart With Ribbon',
   'Sparkling Heart',
@@ -2674,7 +2674,7 @@ final Map<String, String> symbols = new Map.fromIterables([
 ]);
 
 /// Map of all possible emojis along with their names in [Category.FLAGS]
-final Map<String, String> flags = new Map.fromIterables([
+final Map<String, String> flags = Map.fromIterables([
   'Chequered Flag',
   'Triangular Flag',
   'Crossed Flags',

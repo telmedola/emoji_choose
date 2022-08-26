@@ -1,6 +1,6 @@
 name: emoji_choose
-description: A new flutter plugin project.
-version: 0.0.1
+description: A library of Emoji Choose.
+version: 0.0.2
 homepage: https://github.com/telmedola
 repository: https://github.com/telmedola/emoji_choose.git
 
