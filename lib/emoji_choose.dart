@@ -1234,13 +1234,787 @@ class _EmojiChooseState extends State<EmojiChoose> {
 
       return Column(
         children: <Widget>[
-          SizedBox(
-            height: (MediaQuery.of(context).size.width / widget.columns) *
-                widget.rows,
-            width: MediaQuery.of(context).size.width,
+          Container(
+              height: 50,
+              color: widget.bgColor,
+              child: Row(
+                children: <Widget>[
+                  widget.recommendKeywords.isEmpty
+                      ? SizedBox(
+                    width: MediaQuery.of(context).size.width / 10,
+                    height: MediaQuery.of(context).size.width / 10,
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory ==
+                                      Category.RECOMMENDED
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.recommendationIcon
+                                      .icon,
+                                  size: 22,
+                                  color: widget.selectedCategory ==
+                                      Category.RECOMMENDED
+                                      ? widget.categoryIcons
+                                      .recommendationIcon.selectedColor
+                                      : widget.categoryIcons
+                                      .recommendationIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory ==
+                            Category.RECOMMENDED) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(0);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory ==
+                          Category.RECOMMENDED
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius:
+                      const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.recommendationIcon
+                              .icon,
+                          size: 22,
+                          color: widget.selectedCategory ==
+                              Category.RECOMMENDED
+                              ? widget.categoryIcons
+                              .recommendationIcon.selectedColor
+                              : widget.categoryIcons
+                              .recommendationIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory ==
+                            Category.RECOMMENDED) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(0);
+                      },
+                    ),
+                  )
+                      : Container(),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.RECENT
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.recentIcon.icon,
+                                  size: 22,
+                                  color:
+                                  widget.selectedCategory == Category.RECENT
+                                      ? widget.categoryIcons.recentIcon
+                                      .selectedColor
+                                      : widget.categoryIcons.recentIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.RECENT) {
+                          return;
+                        }
+
+                        pageController
+                            .jumpToPage(0 + recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.RECENT
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.recentIcon.icon,
+                          size: 22,
+                          color:
+                          widget.selectedCategory == Category.RECENT
+                              ? widget.categoryIcons.recentIcon
+                              .selectedColor
+                              : widget.categoryIcons.recentIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.RECENT) {
+                          return;
+                        }
+
+                        pageController
+                            .jumpToPage(0 + recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.SMILEYS
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.smileyIcon.icon,
+                                  size: 22,
+                                  color:
+                                  widget.selectedCategory == Category.SMILEYS
+                                      ? widget.categoryIcons.smileyIcon
+                                      .selectedColor
+                                      : widget.categoryIcons.smileyIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.SMILEYS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(
+                            0 + recentPagesNum + recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.SMILEYS
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.smileyIcon.icon,
+                          size: 22,
+                          color:
+                          widget.selectedCategory == Category.SMILEYS
+                              ? widget.categoryIcons.smileyIcon
+                              .selectedColor
+                              : widget.categoryIcons.smileyIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.SMILEYS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(
+                            0 + recentPagesNum + recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.ANIMALS
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.animalIcon.icon,
+                                  size: 22,
+                                  color:
+                                  widget.selectedCategory == Category.ANIMALS
+                                      ? widget.categoryIcons.animalIcon
+                                      .selectedColor
+                                      : widget.categoryIcons.animalIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.ANIMALS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.ANIMALS
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.animalIcon.icon,
+                          size: 22,
+                          color:
+                          widget.selectedCategory == Category.ANIMALS
+                              ? widget.categoryIcons.animalIcon
+                              .selectedColor
+                              : widget.categoryIcons.animalIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.ANIMALS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.FOODS
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.foodIcon.icon,
+                                  size: 22,
+                                  color: widget.selectedCategory == Category.FOODS
+                                      ? widget
+                                      .categoryIcons.foodIcon.selectedColor
+                                      : widget.categoryIcons.foodIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.FOODS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.FOODS
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.foodIcon.icon,
+                          size: 22,
+                          color: widget.selectedCategory == Category.FOODS
+                              ? widget
+                              .categoryIcons.foodIcon.selectedColor
+                              : widget.categoryIcons.foodIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.FOODS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.TRAVEL
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.travelIcon.icon,
+                                  size: 22,
+                                  color:
+                                  widget.selectedCategory == Category.TRAVEL
+                                      ? widget.categoryIcons.travelIcon
+                                      .selectedColor
+                                      : widget.categoryIcons.travelIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.TRAVEL) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.TRAVEL
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.travelIcon.icon,
+                          size: 22,
+                          color:
+                          widget.selectedCategory == Category.TRAVEL
+                              ? widget.categoryIcons.travelIcon
+                              .selectedColor
+                              : widget.categoryIcons.travelIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.TRAVEL) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color:
+                                  widget.selectedCategory == Category.ACTIVITIES
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.activityIcon.icon,
+                                  size: 22,
+                                  color: widget.selectedCategory ==
+                                      Category.ACTIVITIES
+                                      ? widget.categoryIcons.activityIcon
+                                      .selectedColor
+                                      : widget.categoryIcons.activityIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory ==
+                            Category.ACTIVITIES) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            travelPagesNum +
+                            recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color:
+                      widget.selectedCategory == Category.ACTIVITIES
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.activityIcon.icon,
+                          size: 22,
+                          color: widget.selectedCategory ==
+                              Category.ACTIVITIES
+                              ? widget.categoryIcons.activityIcon
+                              .selectedColor
+                              : widget.categoryIcons.activityIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory ==
+                            Category.ACTIVITIES) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            travelPagesNum +
+                            recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.OBJECTS
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.objectIcon.icon,
+                                  size: 22,
+                                  color:
+                                  widget.selectedCategory == Category.OBJECTS
+                                      ? widget.categoryIcons.objectIcon
+                                      .selectedColor
+                                      : widget.categoryIcons.objectIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.OBJECTS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            activityPagesNum +
+                            travelPagesNum +
+                            recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.OBJECTS
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.objectIcon.icon,
+                          size: 22,
+                          color:
+                          widget.selectedCategory == Category.OBJECTS
+                              ? widget.categoryIcons.objectIcon
+                              .selectedColor
+                              : widget.categoryIcons.objectIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.OBJECTS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            activityPagesNum +
+                            travelPagesNum +
+                            recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ? GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.SYMBOLS
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.symbolIcon.icon,
+                                  size: 22,
+                                  color:
+                                  widget.selectedCategory == Category.SYMBOLS
+                                      ? widget.categoryIcons.symbolIcon
+                                      .selectedColor
+                                      : widget.categoryIcons.symbolIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.SYMBOLS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            activityPagesNum +
+                            travelPagesNum +
+                            objectPagesNum +
+                            recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.SYMBOLS
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.symbolIcon.icon,
+                          size: 22,
+                          color:
+                          widget.selectedCategory == Category.SYMBOLS
+                              ? widget.categoryIcons.symbolIcon
+                              .selectedColor
+                              : widget.categoryIcons.symbolIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.SYMBOLS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            activityPagesNum +
+                            travelPagesNum +
+                            objectPagesNum +
+                            recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    height: MediaQuery.of(context).size.width /
+                        (widget.recommendKeywords.isEmpty ? 9 : 10),
+                    child: widget.buttonMode == ButtonMode.MATERIAL
+                        ?GestureDetector(
+                      child:
+                      AbsorbPointer(
+                          absorbing: true,
+                          child:
+                          Container(
+                              decoration: ShapeDecoration(
+                                  color: widget.selectedCategory == Category.FLAGS
+                                      ? Colors.black12
+                                      : Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(0)))),
+                              child: Center(
+                                child: Icon(
+                                  widget.categoryIcons.flagIcon.icon,
+                                  size: 22,
+                                  color: widget.selectedCategory == Category.FLAGS
+                                      ? widget
+                                      .categoryIcons.flagIcon.selectedColor
+                                      : widget.categoryIcons.flagIcon.color,
+                                ),
+                              ))),
+                      onTap: () {
+                        if (widget.selectedCategory == Category.FLAGS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            activityPagesNum +
+                            travelPagesNum +
+                            objectPagesNum +
+                            symbolPagesNum +
+                            recommendedPagesNum);
+                      },
+                    )
+                        : CupertinoButton(
+                      pressedOpacity: 0.4,
+                      padding: const EdgeInsets.all(0),
+                      color: widget.selectedCategory == Category.FLAGS
+                          ? Colors.black12
+                          : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      child: Center(
+                        child: Icon(
+                          widget.categoryIcons.flagIcon.icon,
+                          size: 22,
+                          color: widget.selectedCategory == Category.FLAGS
+                              ? widget
+                              .categoryIcons.flagIcon.selectedColor
+                              : widget.categoryIcons.flagIcon.color,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (widget.selectedCategory == Category.FLAGS) {
+                          return;
+                        }
+
+                        pageController.jumpToPage(recentPagesNum +
+                            smileyPagesNum +
+                            animalPagesNum +
+                            foodPagesNum +
+                            activityPagesNum +
+                            travelPagesNum +
+                            objectPagesNum +
+                            symbolPagesNum +
+                            recommendedPagesNum);
+                      },
+                    ),
+                  ),
+                ],
+              )),
+          Container(
+              color: widget.bgColor,
+              height: 6,
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only(top: 4, bottom: 0, right: 2, left: 2),
+              child: CustomPaint(
+                painter: _ProgressPainter(
+                    context: context,
+                    pageController: pageController,
+                    pages:
+                    Map.fromIterables([
+                      Category.RECOMMENDED,
+                      Category.RECENT,
+                      Category.SMILEYS,
+                      Category.ANIMALS,
+                      Category.FOODS,
+                      Category.TRAVEL,
+                      Category.ACTIVITIES,
+                      Category.OBJECTS,
+                      Category.SYMBOLS,
+                      Category.FLAGS
+                    ], [
+                      recommendedPagesNum,
+                      recentPagesNum,
+                      smileyPagesNum,
+                      animalPagesNum,
+                      foodPagesNum,
+                      travelPagesNum,
+                      activityPagesNum,
+                      objectPagesNum,
+                      symbolPagesNum,
+                      flagPagesNum
+                    ]),
+                    selectedCategory: widget.selectedCategory,
+                    indicatorColor: widget.indicatorColor),
+              )),
+          Expanded(
             child: PageView(
                 children: pages,
                 controller: pageController,
+                scrollDirection: Axis.vertical,
                 onPageChanged: (index) {
                   if (widget.recommendKeywords.isEmpty &&
                       index < recommendedPagesNum) {
@@ -1306,782 +2080,6 @@ class _EmojiChooseState extends State<EmojiChoose> {
                   }
                 }),
           ),
-          Container(
-              color: widget.bgColor,
-              height: 6,
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 4, bottom: 0, right: 2, left: 2),
-              child: CustomPaint(
-                painter: _ProgressPainter(
-                    context: context,
-                    pageController: pageController,
-                    pages:
-                    Map.fromIterables([
-                      Category.RECOMMENDED,
-                      Category.RECENT,
-                      Category.SMILEYS,
-                      Category.ANIMALS,
-                      Category.FOODS,
-                      Category.TRAVEL,
-                      Category.ACTIVITIES,
-                      Category.OBJECTS,
-                      Category.SYMBOLS,
-                      Category.FLAGS
-                    ], [
-                      recommendedPagesNum,
-                      recentPagesNum,
-                      smileyPagesNum,
-                      animalPagesNum,
-                      foodPagesNum,
-                      travelPagesNum,
-                      activityPagesNum,
-                      objectPagesNum,
-                      symbolPagesNum,
-                      flagPagesNum
-                    ]),
-                    selectedCategory: widget.selectedCategory,
-                    indicatorColor: widget.indicatorColor),
-              )),
-          Container(
-              height: 50,
-              color: widget.bgColor,
-              child: Row(
-                children: <Widget>[
-                  widget.recommendKeywords.isEmpty
-                      ? SizedBox(
-                    width: MediaQuery.of(context).size.width / 10,
-                    height: MediaQuery.of(context).size.width / 10,
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                      child:
-                      AbsorbPointer(
-                        absorbing: true,
-                        child:
-                    Container(
-                      decoration: ShapeDecoration(
-                      color: widget.selectedCategory ==
-                          Category.RECOMMENDED
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.recommendationIcon
-                              .icon,
-                          size: 22,
-                          color: widget.selectedCategory ==
-                              Category.RECOMMENDED
-                              ? widget.categoryIcons
-                              .recommendationIcon.selectedColor
-                              : widget.categoryIcons
-                              .recommendationIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory ==
-                            Category.RECOMMENDED) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(0);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory ==
-                          Category.RECOMMENDED
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius:
-                      const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.recommendationIcon
-                              .icon,
-                          size: 22,
-                          color: widget.selectedCategory ==
-                              Category.RECOMMENDED
-                              ? widget.categoryIcons
-                              .recommendationIcon.selectedColor
-                              : widget.categoryIcons
-                              .recommendationIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory ==
-                            Category.RECOMMENDED) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(0);
-                      },
-                    ),
-                  )
-                      : Container(),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                          child:
-                          Container(
-                          decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.RECENT
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.recentIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.RECENT
-                              ? widget.categoryIcons.recentIcon
-                              .selectedColor
-                              : widget.categoryIcons.recentIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.RECENT) {
-                          return;
-                        }
-
-                        pageController
-                            .jumpToPage(0 + recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.RECENT
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.recentIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.RECENT
-                              ? widget.categoryIcons.recentIcon
-                              .selectedColor
-                              : widget.categoryIcons.recentIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.RECENT) {
-                          return;
-                        }
-
-                        pageController
-                            .jumpToPage(0 + recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                        child:
-                        Container(
-                        decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.SMILEYS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.smileyIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.SMILEYS
-                              ? widget.categoryIcons.smileyIcon
-                              .selectedColor
-                              : widget.categoryIcons.smileyIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.SMILEYS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(
-                            0 + recentPagesNum + recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.SMILEYS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.smileyIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.SMILEYS
-                              ? widget.categoryIcons.smileyIcon
-                              .selectedColor
-                              : widget.categoryIcons.smileyIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.SMILEYS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(
-                            0 + recentPagesNum + recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                        child:
-                        Container(
-                        decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.ANIMALS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.animalIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.ANIMALS
-                              ? widget.categoryIcons.animalIcon
-                              .selectedColor
-                              : widget.categoryIcons.animalIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.ANIMALS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.ANIMALS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.animalIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.ANIMALS
-                              ? widget.categoryIcons.animalIcon
-                              .selectedColor
-                              : widget.categoryIcons.animalIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.ANIMALS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                          child:
-                          AbsorbPointer(
-                          absorbing: true,
-                          child:
-                          Container(
-                          decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.FOODS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.foodIcon.icon,
-                          size: 22,
-                          color: widget.selectedCategory == Category.FOODS
-                              ? widget
-                              .categoryIcons.foodIcon.selectedColor
-                              : widget.categoryIcons.foodIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.FOODS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.FOODS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.foodIcon.icon,
-                          size: 22,
-                          color: widget.selectedCategory == Category.FOODS
-                              ? widget
-                              .categoryIcons.foodIcon.selectedColor
-                              : widget.categoryIcons.foodIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.FOODS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                        child:
-                        Container(
-                        decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.TRAVEL
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.travelIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.TRAVEL
-                              ? widget.categoryIcons.travelIcon
-                              .selectedColor
-                              : widget.categoryIcons.travelIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.TRAVEL) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.TRAVEL
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.travelIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.TRAVEL
-                              ? widget.categoryIcons.travelIcon
-                              .selectedColor
-                              : widget.categoryIcons.travelIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.TRAVEL) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                        child:
-                        Container(
-                        decoration: ShapeDecoration(
-                      color:
-                      widget.selectedCategory == Category.ACTIVITIES
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.activityIcon.icon,
-                          size: 22,
-                          color: widget.selectedCategory ==
-                              Category.ACTIVITIES
-                              ? widget.categoryIcons.activityIcon
-                              .selectedColor
-                              : widget.categoryIcons.activityIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory ==
-                            Category.ACTIVITIES) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            travelPagesNum +
-                            recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color:
-                      widget.selectedCategory == Category.ACTIVITIES
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.activityIcon.icon,
-                          size: 22,
-                          color: widget.selectedCategory ==
-                              Category.ACTIVITIES
-                              ? widget.categoryIcons.activityIcon
-                              .selectedColor
-                              : widget.categoryIcons.activityIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory ==
-                            Category.ACTIVITIES) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            travelPagesNum +
-                            recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                        child:
-                        Container(
-                        decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.OBJECTS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.objectIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.OBJECTS
-                              ? widget.categoryIcons.objectIcon
-                              .selectedColor
-                              : widget.categoryIcons.objectIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.OBJECTS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            activityPagesNum +
-                            travelPagesNum +
-                            recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.OBJECTS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.objectIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.OBJECTS
-                              ? widget.categoryIcons.objectIcon
-                              .selectedColor
-                              : widget.categoryIcons.objectIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.OBJECTS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            activityPagesNum +
-                            travelPagesNum +
-                            recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ? GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                        child:
-                        Container(
-                        decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.SYMBOLS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.symbolIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.SYMBOLS
-                              ? widget.categoryIcons.symbolIcon
-                              .selectedColor
-                              : widget.categoryIcons.symbolIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.SYMBOLS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            activityPagesNum +
-                            travelPagesNum +
-                            objectPagesNum +
-                            recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.SYMBOLS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.symbolIcon.icon,
-                          size: 22,
-                          color:
-                          widget.selectedCategory == Category.SYMBOLS
-                              ? widget.categoryIcons.symbolIcon
-                              .selectedColor
-                              : widget.categoryIcons.symbolIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.SYMBOLS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            activityPagesNum +
-                            travelPagesNum +
-                            objectPagesNum +
-                            recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    height: MediaQuery.of(context).size.width /
-                        (widget.recommendKeywords.isEmpty ? 9 : 10),
-                    child: widget.buttonMode == ButtonMode.MATERIAL
-                        ?GestureDetector(
-                        child:
-                        AbsorbPointer(
-                        absorbing: true,
-                        child:
-                        Container(
-                        decoration: ShapeDecoration(
-                      color: widget.selectedCategory == Category.FLAGS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(0)))),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.flagIcon.icon,
-                          size: 22,
-                          color: widget.selectedCategory == Category.FLAGS
-                              ? widget
-                              .categoryIcons.flagIcon.selectedColor
-                              : widget.categoryIcons.flagIcon.color,
-                        ),
-                      ))),
-                      onTap: () {
-                        if (widget.selectedCategory == Category.FLAGS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            activityPagesNum +
-                            travelPagesNum +
-                            objectPagesNum +
-                            symbolPagesNum +
-                            recommendedPagesNum);
-                      },
-                    )
-                        : CupertinoButton(
-                      pressedOpacity: 0.4,
-                      padding: const EdgeInsets.all(0),
-                      color: widget.selectedCategory == Category.FLAGS
-                          ? Colors.black12
-                          : Colors.transparent,
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      child: Center(
-                        child: Icon(
-                          widget.categoryIcons.flagIcon.icon,
-                          size: 22,
-                          color: widget.selectedCategory == Category.FLAGS
-                              ? widget
-                              .categoryIcons.flagIcon.selectedColor
-                              : widget.categoryIcons.flagIcon.color,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (widget.selectedCategory == Category.FLAGS) {
-                          return;
-                        }
-
-                        pageController.jumpToPage(recentPagesNum +
-                            smileyPagesNum +
-                            animalPagesNum +
-                            foodPagesNum +
-                            activityPagesNum +
-                            travelPagesNum +
-                            objectPagesNum +
-                            symbolPagesNum +
-                            recommendedPagesNum);
-                      },
-                    ),
-                  ),
-                ],
-              ))
         ],
       );
     } else {
