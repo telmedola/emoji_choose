@@ -9,3 +9,7 @@ WEB and Android version with NullSafetty and SharedPreferences.
 
 - Removing FlatButton depracted.
 - Size of the button, now is passed by parameters. Default is 24.0
+
+## [0.0.3] - 23/01/2023
+
+- Fixed bugs icon size
