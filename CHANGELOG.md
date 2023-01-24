@@ -13,3 +13,7 @@ WEB and Android version with NullSafetty and SharedPreferences.
 ## [0.0.3] - 23/01/2023
 
 - Fixed bugs icon size
+
+## [0.0.4] - 24/01/2023
+
+- Indicator bar - fixed

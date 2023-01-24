@@ -1975,11 +1975,11 @@ class _EmojiChooseState extends State<EmojiChoose> {
                 ],
               )),
           Container(
-              color: widget.bgColor,
-              height: 6,
+              color: widget.indicatorColor,
+              height: 2,
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(top: 4, bottom: 0, right: 2, left: 2),
-              child: CustomPaint(
+              /*child: CustomPaint(
                 painter: _ProgressPainter(
                     context: context,
                     pageController: pageController,
@@ -2009,7 +2009,7 @@ class _EmojiChooseState extends State<EmojiChoose> {
                     ]),
                     selectedCategory: widget.selectedCategory,
                     indicatorColor: widget.indicatorColor),
-              )),
+              )*/),
           Expanded(
             child: PageView(
                 children: pages,
